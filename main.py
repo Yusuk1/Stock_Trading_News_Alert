@@ -8,22 +8,24 @@ import matplotlib.pyplot as plt
 import requests
 from twilio.rest import Client
 
-VIRTUAL_TWILIO_NUMBER = "your virtual twilio number"
-VERIFIED_NUMBER = "your own phone number verified with Twilio"
+VIRTUAL_TWILIO_NUMBER = "+1"
+VERIFIED_NUMBER = "+2"
 
 STOCK_NAME = "TSLA"
-COMPANY_NAME = "Tesla Inc"
+COMPANY_NAME = "Tesla"
 
 STOCK_ENDPOINT = "https://www.alphavantage.co/query"
-NEWS_ENDPOINT = "https://newsapi.org/"
+NEWS_ENDPOINT = "https://newsapi.org/v2/everything/"
 
-STOCK_API_KEY = "032PV4R4RWDHXCG8"
-NEWS_API_KEY = "e3e269d0de3b4f48b5f90103b7d430c3"
-TWILIO_SID = "YOUR TWILIO ACCOUNT SID"
-TWILIO_AUTH_TOKEN = "YOUR TWILIO AUTH TOKEN"
+STOCK_API_KEY = "1"
+NEWS_API_KEY = "2"
+TWILIO_SID = "3"
+TWILIO_AUTH_TOKEN = "4"
 
 ## STEP 1: Use https://www.alphavantage.co/documentation/#daily
 # When stock price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
+
+print(STOCK_NAME)
 
 #Get yesterday's closing stock price
 stock_params = {
