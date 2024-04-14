@@ -17,7 +17,7 @@ COMPANY_NAMES = {"TSLA": "Tesla", "IONQ": "IonQ"}
 STOCK_ENDPOINT = "https://www.alphavantage.co/query"
 NEWS_ENDPOINT = "https://newsapi.org/v2/everything/"
 
-STOCK_API_KEY = "3"
+STOCK_API_KEY = "55"
 NEWS_API_KEY = "4"
 TWILIO_SID = "5"
 TWILIO_AUTH_TOKEN = "6"
