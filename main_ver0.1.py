@@ -2,6 +2,8 @@
 # Final Project
 # Name: Brian Kim
 # Reference: https://www.udemy.com/course/100-days-of-code/?couponCode=JUST4U02223
+
+'''Stock_Trading_News_Alert'''
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -79,5 +81,58 @@ for STOCK_NAME in STOCK_NAMES:
                 from_=VIRTUAL_TWILIO_NUMBER,
                 to=VERIFIED_NUMBER
             )
+
+# %%
+'''Stock Company Youtube Crawling'''
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By  # Import By for locating elements
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+from bs4 import BeautifulSoup
+
+# Define the companies and their respective search URLs on YouTube
+COMPANIES = {
+    'Tesla': 'https://www.youtube.com/results?search_query=Tesla+stock',
+    'IonQ': 'https://www.youtube.com/results?search_query=IonQ+stock'
+}
+
+def fetch_youtube_links(search_url):
+    # Setup Chrome options
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')  # Run in headless mode to avoid UI rendering
+
+    # Initialize WebDriver with ChromeDriverManager
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+    driver.get(search_url)
+    
+    time.sleep(1.5)
+    endkey = 4
+    while endkey:
+        driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.END)  # Update to use By.TAG_NAME
+        time.sleep(0.3)
+        endkey -= 1
+
+    # Extract video links
+    html = driver.page_source
+    soup = BeautifulSoup(html, 'lxml')
+    video_list = soup.find('div', {'id': 'contents'})
+    video_items = video_list.find_all('ytd-video-renderer', {'class': 'style-scope ytd-item-section-renderer'})
+    
+    base_url = 'http://www.youtube.com'
+    video_urls = [base_url + item.find('a', {'id': 'video-title'})['href'] for item in video_items]
+    
+    driver.quit()
+    return video_urls
+
+# Iterate through each company and fetch their YouTube links
+for company, url in COMPANIES.items():
+    print(f"Fetching YouTube links for {company}")
+    links = fetch_youtube_links(url)
+    print(f"Found {len(links)} videos for {company}")
+    for link in links:
+        print(link)
 
 # %%
