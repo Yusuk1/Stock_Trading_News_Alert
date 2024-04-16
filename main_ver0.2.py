@@ -23,7 +23,7 @@ NEWS_ENDPOINT = "https://newsapi.org/v2/everything/"
 
 STOCK_API_KEY = "1"
 NEWS_API_KEY = "2"
-TWILIO_SID = "3"
+TWILIO_SID = "5"
 TWILIO_AUTH_TOKEN = "4"
 
 
