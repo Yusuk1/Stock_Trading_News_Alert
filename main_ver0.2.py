@@ -167,10 +167,9 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 from bs4 import BeautifulSoup
 import csv
-import tempfile
 import os
 
-# Define the companies and their respective search URLs on YouTube
+
 COMPANIES = {
     'Tesla': 'https://www.youtube.com/results?search_query=Tesla+stock',
     'IonQ': 'https://www.youtube.com/results?search_query=IonQ+stock'
@@ -204,8 +203,8 @@ def fetch_youtube_links(search_url):
     driver.quit()
     return video_urls
 
-# Define the filename in a writable temporary directory
-filename = os.path.join(tempfile.gettempdir(), "youtube_video_links.csv")
+# Extract csv
+filename = "youtube_video_links.csv"
 
 with open(filename, 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
@@ -222,6 +221,7 @@ with open(filename, 'w', newline='', encoding='utf-8') as file:
             writer.writerow([company, link])
 
 print(f"Data has been written to {filename}")
+
 
 
 # from selenium import webdriver
