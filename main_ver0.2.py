@@ -12,8 +12,8 @@ import matplotlib.pyplot as plt
 import requests
 from twilio.rest import Client
 
-VIRTUAL_TWILIO_NUMBER = "+18446560962"
-VERIFIED_NUMBER = "+17035591282"
+VIRTUAL_TWILIO_NUMBER = "+1"
+VERIFIED_NUMBER = "+2"
 
 STOCK_NAMES = ["TSLA", "IONQ"]
 COMPANY_NAMES = {"TSLA": "Tesla", "IONQ": "IonQ"}
@@ -21,10 +21,10 @@ COMPANY_NAMES = {"TSLA": "Tesla", "IONQ": "IonQ"}
 STOCK_ENDPOINT = "https://www.alphavantage.co/query"
 NEWS_ENDPOINT = "https://newsapi.org/v2/everything/"
 
-STOCK_API_KEY = "032PV4R4RWDHXCG8"
-NEWS_API_KEY = "e3e269d0de3b4f48b5f90103b7d430c3"
-TWILIO_SID = "AC1fc6d638964e23c261d075fb53eb87cd"
-TWILIO_AUTH_TOKEN = "1869582107c34b5b60dac320b46ddc22"
+STOCK_API_KEY = "1"
+NEWS_API_KEY = "2"
+TWILIO_SID = "3"
+TWILIO_AUTH_TOKEN = "4"
 
 
 #%%
