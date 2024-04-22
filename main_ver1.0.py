@@ -1,6 +1,6 @@
-#%%
-# Final Project
-# Name: Brian Kim
+#%% [markdown]
+# Final Project <br>
+# Name: Brian Kim <br>
 # Reference:
 # 1. https://www.udemy.com/course/100-days-of-code/?couponCode=JUST4U02223
 # 2. https://0goodmorning.tistory.com/66
@@ -156,7 +156,8 @@ for STOCK_NAME in STOCK_NAMES:
 #                 to=VERIFIED_NUMBER
 #             )
 
-# %%
+# %%[markdown]
+# Stock Company Youtube Crawling
 '''Stock Company Youtube Crawling'''
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -208,7 +209,7 @@ filename = "youtube_video_links.csv"
 
 with open(filename, 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
-    writer.writerow(['Company', 'Video URL'])  # Writing the header row
+    writer.writerow(['Company', 'Video URL'])
 
     # Iterate through each company and fetch their YouTube links
     for company, url in COMPANIES.items():
