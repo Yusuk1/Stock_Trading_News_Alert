@@ -170,54 +170,49 @@ from bs4 import BeautifulSoup
 import csv
 import os
 
-
 COMPANIES = {
     'Tesla': 'https://www.youtube.com/results?search_query=Tesla+stock',
-    'IonQ': 'https://www.youtube.com/results?search_query=IonQ+stock'
+    'IonQ': 'https://www.youtube.com/results?search_query=IonQ+stock',
+    'Nvidia': 'https://www.youtube.com/results?search_query=Nvidia+stock'
 }
 
 def fetch_youtube_links(search_url):
-    # Setup Chrome options
     chrome_options = Options()
-    chrome_options.add_argument('--headless')  # Run in headless mode to avoid UI rendering
-
-    # Initialize WebDriver with ChromeDriverManager
+    chrome_options.add_argument('--headless')
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     driver.get(search_url)
     
-    time.sleep(1.5)  # Allow page to load
-    endkey = 4
-    while endkey:
+    time.sleep(1.5)
+    for _ in range(4):
         driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.END)
         time.sleep(0.3)
-        endkey -= 1
 
-    # Extract video links
     html = driver.page_source
     soup = BeautifulSoup(html, 'lxml')
     video_list = soup.find('div', {'id': 'contents'})
     video_items = video_list.find_all('ytd-video-renderer', {'class': 'style-scope ytd-item-section-renderer'})
     
     base_url = 'https://www.youtube.com'
-    video_urls = [base_url + item.find('a', {'id': 'video-title'})['href'] for item in video_items]
+    video_urls = [base_url + item.find('a', {'id': 'video-title'}).get('href') for item in video_items]
     
     driver.quit()
     return video_urls
 
-# Extract csv
-filename = "youtube_video_links.csv"
+# Specify the output directory
+output_directory = '/Users/brian/Documents/GitHub/Stock_Trading_News_Alert'
+if not os.path.exists(output_directory):
+    os.makedirs(output_directory)
+
+# Define the filename in the specified directory
+filename = os.path.join(output_directory, "youtube_video_links.csv")
 
 with open(filename, 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
     writer.writerow(['Company', 'Video URL'])
-
-    # Iterate through each company and fetch their YouTube links
     for company, url in COMPANIES.items():
         print(f"Fetching YouTube links for {company}")
         links = fetch_youtube_links(url)
         print(f"Found {len(links)} videos for {company}")
-
-        # Write each link to the CSV file
         for link in links:
             writer.writerow([company, link])
 
@@ -227,34 +222,33 @@ print(f"Data has been written to {filename}")
 
 # from selenium import webdriver
 # from selenium.webdriver.common.keys import Keys
-# from selenium.webdriver.common.by import By  # Import By for locating elements
+# from selenium.webdriver.common.by import By
 # from selenium.webdriver.chrome.service import Service
 # from selenium.webdriver.chrome.options import Options
 # from webdriver_manager.chrome import ChromeDriverManager
 # import time
 # from bs4 import BeautifulSoup
+# import csv
+# import tempfile
 
-# # Define the companies and their respective search URLs on YouTube
 # COMPANIES = {
 #     'Tesla': 'https://www.youtube.com/results?search_query=Tesla+stock',
-#     'IonQ': 'https://www.youtube.com/results?search_query=IonQ+stock'
+#     'IonQ': 'https://www.youtube.com/results?search_query=IonQ+stock',
+#     'Nvidia': 'https://www.youtube.com/results?search_query=Nvidia+stock'
 # }
 
 # def fetch_youtube_links(search_url):
 #     # Setup Chrome options
 #     chrome_options = Options()
 #     chrome_options.add_argument('--headless')  # Run in headless mode to avoid UI rendering
-
 #     # Initialize WebDriver with ChromeDriverManager
 #     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 #     driver.get(search_url)
     
-#     time.sleep(1.5)
-#     endkey = 4
-#     while endkey:
-#         driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.END)  # Update to use By.TAG_NAME
+#     time.sleep(1.5)  # Allow page to load
+#     for _ in range(4):
+#         driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.END)
 #         time.sleep(0.3)
-#         endkey -= 1
 
 #     # Extract video links
 #     html = driver.page_source
@@ -262,18 +256,20 @@ print(f"Data has been written to {filename}")
 #     video_list = soup.find('div', {'id': 'contents'})
 #     video_items = video_list.find_all('ytd-video-renderer', {'class': 'style-scope ytd-item-section-renderer'})
     
-#     base_url = 'http://www.youtube.com'
-#     video_urls = [base_url + item.find('a', {'id': 'video-title'})['href'] for item in video_items]
+#     base_url = 'https://www.youtube.com'
+#     video_urls = [base_url + item.find('a', {'id': 'video-title'}).get('href') for item in video_items]
     
 #     driver.quit()
 #     return video_urls
 
-# # Iterate through each company and fetch their YouTube links
-# for company, url in COMPANIES.items():
-#     print(f"Fetching YouTube links for {company}")
-#     links = fetch_youtube_links(url)
-#     print(f"Found {len(links)} videos for {company}")
-#     for link in links:
-#         print(link)
-
-# %%
+# # Using a temporary file to write the CSV
+# with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.csv', newline='', encoding='utf-8') as file:
+#     writer = csv.writer(file)
+#     writer.writerow(['Company', 'Video URL'])
+#     for company, url in COMPANIES.items():
+#         print(f"Fetching YouTube links for {company}")
+#         links = fetch_youtube_links(url)
+#         print(f"Found {len(links)} videos for {company}")
+#         for link in links:
+#             writer.writerow([company, link])
+#     print("CSV file has been written to:", file.name)
